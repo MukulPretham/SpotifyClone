@@ -1,12 +1,11 @@
+.playlist-h2 {
 
-.playlist-h2{
-    
     padding-left: 25px;
     padding-top: 15px;
     padding-bottom: 15px;
 }
 
-.playlist{
+.playlist {
     /* border: 2px solid white; */
     height: auto;
     display: flex;
@@ -15,43 +14,51 @@
     gap: 10px;
     margin-left: 10px;
 }
-.card{
+
+.card {
     height: 235px;
     width: 160px;
     background-color: rgba(128, 128, 128, 0.16);
     border-radius: 10px;
     /* border: 2px solid orange; */
 }
-.card-img{
+
+.card-img {
     height: 80%;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     /* border: solid white; */
 }
-.img{
+
+.img {
     width: 100%;
+    position: relative;
     height: 100%;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
-.card-img:hover .play{
+
+.card-img:hover .play {
     opacity: 1;
 }
-.card:hover{
+
+.card:hover {
     background-color: black;
     cursor: pointer;
 }
-.play{
+
+.play {
     position: relative;
     top: -60px;
-    bottom:0px;
+    bottom: 0px;
     right: 0px;
     left: 112px;
     z-index: 10;
     opacity: 0;
     transition: opacity 0.5s ease;
 }
-.img-title{
+
+.img-title {
     font-size: 12px;
     padding-top: 3px;
     color: gray;
@@ -59,25 +66,30 @@
 }
 
 @media (max-width: 1250px) {
-    .playlist{
+    .playlist {
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
-    .card{
+
+    .card {
         width: 90%;
         height: 30%;
     }
-    .card-img{
-        height: 350px
+
+    .card-img {
+        height: 350px;
     }
-    .img-title{
+
+    .img-title {
         font-size: 16px;
         height: 50px;
     }
 
-    .play{
-        display: none;
+    .play {
+        transition: none;
+        left: 249px;
+        opacity: 1;
     }
 
-} 
+}
