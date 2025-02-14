@@ -37,17 +37,17 @@ async function getSONGS(num) {
 //     return BGS;
 // }
 let currentAudio = null;
-let playing = false;
-let currentIndex = null;
 let seekBar = document.querySelector(".seekBar");
-let volSeek = document.querySelector(".volSeek");
 document.querySelectorAll(".play").forEach(playBtn => {
     playBtn.addEventListener("click", async (e) => {
+        if (currentAudio) {
+            currentAudio.pause();
+        }
+        let playing = false;
+        let currentIndex = 0;
+        
+        let volSeek = document.querySelector(".volSeek");
         document.querySelectorAll("ol div").forEach(div => div.remove());
-        // if (currentAudio) {
-        //     currentAudio.pause();
-        //     currentAudio.currentTime = 0;
-        // }
 
         let card = e.target.closest(".card-img"); // Find the closest parent with class "card-img"
         let title = card.nextElementSibling; // The .img-title div is the next sibling
@@ -59,9 +59,35 @@ document.querySelectorAll(".play").forEach(playBtn => {
         let SONGS = await getSONGS(num);
         console.log(SONGS);
         // let BGS = await getBGS();
-        // currentAudio = new Audio(SONGS[0]);
-        // currentAudio.play();
-        playing = true;
+        currentAudio = new Audio(SONGS[currentIndex]);
+        currentAudio.play();
+        let info = document.querySelector(".song-info");
+        info.innerHTML = songs[0];
+        if (playing) {
+            currentAudio.pause();
+            playing = false;
+            let play = document.querySelector(".PLAY").getElementsByTagName("img")[0];
+            play.src = "./logos/play.svg";
+        } else {
+            currentAudio.play();
+            playing = true;
+            let play = document.querySelector(".PLAY").getElementsByTagName("img")[0];
+            play.src = "./logos/pause.svg";
+        }
+        
+        currentAudio.addEventListener("loadedmetadata", () => {
+            if (currentAudio) {
+                seekBar.max = currentAudio.duration;
+            }
+        });
+
+        //seekbar starts at 0 when every play btn pressed.
+        currentAudio.addEventListener("timeupdate", () => {
+            if (currentAudio) {
+                seekBar.value = currentAudio.currentTime;
+            }
+        });
+
         //Adding songs to playlist.
         for (const element of songs) {
             let songOL = document.querySelector(".songList").getElementsByTagName("ol")[0];
@@ -71,8 +97,8 @@ document.querySelectorAll(".play").forEach(playBtn => {
                     </div>`;
         }
 
-        let buttons = document.querySelectorAll(".playNow img");
 
+        let buttons = document.querySelectorAll(".playNow img");
         buttons.forEach((button, index) => {
             //Playing Song.
             button.addEventListener("click", () => {
@@ -92,9 +118,9 @@ document.querySelectorAll(".play").forEach(playBtn => {
                 }
 
                 //Adding background image of the current song.
-                let bg = document.querySelector(".song-img");
-                bg.style.backgroundImage = `url(${BGS[currentIndex]})`;
-                bg.style.backgroundSize = "cover";
+                // let bg = document.querySelector(".song-img");
+                // bg.style.backgroundImage = `url(${BGS[currentIndex]})`;
+                // bg.style.backgroundSize = "cover";
 
                 //Seekbar max value is set as the songs loads.
                 currentAudio.addEventListener("loadedmetadata", () => {
@@ -147,9 +173,9 @@ document.querySelectorAll(".play").forEach(playBtn => {
             let info = document.querySelector(".song-info");
             info.innerHTML = songs[currentIndex];
 
-            let bg = document.querySelector(".song-img");
-            bg.style.backgroundImage = `url(${BGS[currentIndex]})`;
-            bg.style.backgroundSize = "cover";
+            // let bg = document.querySelector(".song-img");
+            // bg.style.backgroundImage = `url(${BGS[currentIndex]})`;
+            // bg.style.backgroundSize = "cover";
 
             //Seekbar max value is set as the songs loads.
             currentAudio.addEventListener("loadedmetadata", () => {
@@ -185,9 +211,9 @@ document.querySelectorAll(".play").forEach(playBtn => {
             let info = document.querySelector(".song-info");
             info.innerHTML = songs[currentIndex];
 
-            let bg = document.querySelector(".song-img");
-            bg.style.backgroundImage = `url(${BGS[currentIndex]})`;
-            bg.style.backgroundSize = "cover";
+            // let bg = document.querySelector(".song-img");
+            // bg.style.backgroundImage = `url(${BGS[currentIndex]})`;
+            // bg.style.backgroundSize = "cover";
 
             //Seekbar max value is set as the songs loads.
             currentAudio.addEventListener("loadedmetadata", () => {
@@ -230,7 +256,6 @@ document.querySelectorAll(".play").forEach(playBtn => {
                 currentAudio.volume = (e.target.value) / 10;
             }
         })
-
         //auto play.
         setInterval(() => {
             if (currentAudio.currentTime >= currentAudio.duration) {
@@ -241,6 +266,8 @@ document.querySelectorAll(".play").forEach(playBtn => {
 
     });
 });
+
+
 
 let ham = false;
 //setting up hamburger feature
@@ -259,5 +286,3 @@ hamBurger.addEventListener("click", () => {
         hamLogo.src = "./logos/hamburger.svg"
     }
 })
-
-//
