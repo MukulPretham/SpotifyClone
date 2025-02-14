@@ -1,6 +1,6 @@
 //Returns array, consisting songs names
 async function getSongs(num) {
-    let songProm = await fetch("http://localhost:3000/");
+    let songProm = await fetch("https://spotify-api-1-3vqh.onrender.com");
     let obj = await songProm.json();
     let links = obj[num];
     let songs = [];
@@ -13,7 +13,7 @@ async function getSongs(num) {
 
 //Returns array, consisting .mp3 links of the songs.
 async function getSONGS(num) {
-    let songProm = await fetch("http://localhost:3000/");
+    let songProm = await fetch("https://spotify-api-1-3vqh.onrender.com");
     let obj = await songProm.json();
     let links = obj[num];
     let SONGS = [];
